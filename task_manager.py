@@ -25,22 +25,15 @@ def save_data(d):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(d, f, ensure_ascii=False, indent=2)
 
-def _reg_autostart(enable):
-    try:
-        import winreg
-        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
-                             r"Software\Microsoft\Windows\CurrentVersion\Run",
-                             0, winreg.KEY_SET_VALUE)
-        if enable:
-            winreg.SetValueEx(key, "DailyTaskManager", 0, winreg.REG_SZ,
-                              f'"{sys.executable}" "{Path(__file__).resolve()}"')
-        else:
-            try: winreg.DeleteValue(key, "DailyTaskManager")
-            except FileNotFoundError: pass
-        winreg.CloseKey(key)
-        return True
-    except Exception:
-        return False
+def _create_startup_bat():
+    bat = Path(__file__).parent / "起動_タスク管理.bat"
+    py  = Path(sys.executable).resolve()
+    app = Path(__file__).resolve()
+    bat.write_text(
+        f'@echo off\nstart "" "{py}" "{app}"\n',
+        encoding="utf-8",
+    )
+    return bat
 
 def _center(win):
     win.update_idletasks()
@@ -297,7 +290,7 @@ class App(tk.Tk):
             self.tv.heading(c, text=self._HEADS.get(c, c),
                             command=lambda x=c: self._sort(x))
             self.tv.column(c, width=self._WIDTHS.get(c, 120),
-                           minwidth=36, stretch=(c == "name"))
+                           minwidth=36, stretch=True)
         self.tv.tag_configure("done", foreground="#adb5bd")
         self.tv.tag_configure("todo", foreground="#212529")
         vsb = ttk.Scrollbar(self._tf, orient="vertical",   command=self.tv.yview)
@@ -427,19 +420,21 @@ class App(tk.Tk):
         self._refresh()
 
     def _auto(self):
-        en = messagebox.askyesno(
-            "自動起動設定",
-            "「はい」→ Windowsログイン時に自動起動を登録\n"
-            "「いいえ」→ 自動起動の登録を解除",
-            parent=self)
-        if _reg_autostart(en):
-            messagebox.showinfo("完了",
-                "自動起動を登録しました。" if en else "自動起動の登録を解除しました。",
-                parent=self)
-        else:
-            messagebox.showerror("エラー",
-                "レジストリの更新に失敗しました。\n管理者権限で実行してください。",
-                parent=self)
+        try:
+            bat = _create_startup_bat()
+        except Exception as e:
+            messagebox.showerror("エラー", f"BATファイルの作成に失敗しました。\n{e}", parent=self)
+            return
+        startup = Path.home() / "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"
+        messagebox.showinfo(
+            "自動起動の設定方法",
+            f"BATファイルを作成しました：\n{bat}\n\n"
+            "以下のフォルダにそのファイルをコピー（またはショートカット）してください：\n\n"
+            f"{startup}\n\n"
+            "※ セキュリティのため、手動での配置をお願いしています。",
+            parent=self,
+        )
+        webbrowser.open(str(bat.parent))
 
     def _tick(self):
         try:
