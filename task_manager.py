@@ -29,8 +29,9 @@ def _create_startup_bat():
     bat = Path(__file__).parent / "起動_タスク管理.bat"
     py  = Path(sys.executable).resolve()
     app = Path(__file__).resolve()
+    pythonw = py.parent / "pythonw.exe"
     bat.write_text(
-        f'@echo off\nstart "" "{py}" "{app}"\n',
+        f'@echo off\nstart "" "{pythonw}" "{app}"\n',
         encoding="utf-8",
     )
     return bat
