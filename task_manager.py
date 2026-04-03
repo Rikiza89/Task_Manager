@@ -5,7 +5,9 @@ import json, webbrowser, sys
 from datetime import datetime, date
 from pathlib import Path
 
-DATA_FILE = Path(__file__).parent / "tasks.json"
+# Resolve base dir whether running as script or frozen exe
+_BASE = Path(sys.executable).parent if getattr(sys, "frozen", False) else Path(__file__).parent
+DATA_FILE = _BASE / "tasks.json"
 
 _DEF = {
     "tasks": [], "next_id": 1,
@@ -26,13 +28,17 @@ def save_data(d):
         json.dump(d, f, ensure_ascii=False, indent=2)
 
 def _create_startup_bat():
-    bat = Path(__file__).parent / "起動_タスク管理.bat"
-    py  = Path(sys.executable).resolve()
-    app = Path(__file__).resolve()
-    bat.write_text(
-        f'@echo off\nstart "" "{py}" "{app}"\n',
-        encoding="utf-8",
-    )
+    bat = _BASE / "起動_タスク管理.bat"
+    if getattr(sys, "frozen", False):
+        # Running as compiled exe — launch the exe directly (no console by default)
+        exe = Path(sys.executable).resolve()
+        content = f'@echo off\nstart "" "{exe}"\n'
+    else:
+        # Running as script — use pythonw to suppress console
+        pythonw = (Path(sys.executable).parent / "pythonw.exe").resolve()
+        app = Path(__file__).resolve()
+        content = f'@echo off\nstart "" "{pythonw}" "{app}"\n'
+    bat.write_text(content, encoding="utf-8")
     return bat
 
 def _center(win):
