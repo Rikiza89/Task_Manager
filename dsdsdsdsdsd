@@ -1,0 +1,121 @@
+[33mcommit 9286c4aef6e5833e43b66f1fd9fa81229ea9c88b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/r_nakata[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mr_nakata[m[33m)[m
+Author: Rikkarudorikizaemon Nakata <r_nakata@geot.jp>
+Date:   Thu Apr 9 16:10:22 2026 +0900
+
+    Revert "added date"
+    
+    This reverts commit 6b246be593c1c8def0f8d7b6a0691a3559a7ec50.
+
+[33mcommit 6b246be593c1c8def0f8d7b6a0691a3559a7ec50[m
+Author: Rikkarudorikizaemon Nakata <r_nakata@geot.jp>
+Date:   Thu Apr 9 16:07:18 2026 +0900
+
+    added date
+
+[33mcommit 83836d6902f01a9f78aa256609c07823d3ce306d[m
+Author: Rikkarudorikizaemon Nakata <r_nakata@geot.jp>
+Date:   Thu Apr 9 16:00:56 2026 +0900
+
+    changed with name and department
+
+[33mcommit 897330808869466b2f59a2296d4ee1796f82e52a[m
+Author: Rikkarudorikizaemon Nakata <r_nakata@geot.jp>
+Date:   Thu Apr 9 15:57:54 2026 +0900
+
+    test file staged and committed
+
+[33mcommit 451483ebb06f5c3d799d8eef9f703bc7760e194f[m
+Author: Nakata Rikkarudo <149764397+Rikiza89@users.noreply.github.com>
+Date:   Fri Apr 3 16:36:17 2026 +0900
+
+    Delete task_manager.exe
+
+[33mcommit 0736c6a616f5591ae3a5dddec54bd211676e9859[m[33m ([m[1;33mtag: [m[1;33mpython[m[33m)[m
+Author: Nakata Rikkarudo <149764397+Rikiza89@users.noreply.github.com>
+Date:   Fri Apr 3 16:23:15 2026 +0900
+
+    Add files via upload
+
+[33mcommit f50df2d4dc0dab891e49d34c0be2b3c114dcc5b7[m
+Merge: ad59098 55fdcaa
+Author: Nakata Rikkarudo <149764397+Rikiza89@users.noreply.github.com>
+Date:   Fri Apr 3 16:18:42 2026 +0900
+
+    Merge pull request #3 from Rikiza89/claude/todo-list-tkinter-app-7iurc
+    
+    Claude/todo list tkinter app 7iurc
+
+[33mcommit 55fdcaafd6a6f9e44848181385aad41e4c57bb34[m[33m ([m[1;31morigin/claude/todo-list-tkinter-app-7iurc[m[33m)[m
+Author: Claude <noreply@anthropic.com>
+Date:   Fri Apr 3 07:16:21 2026 +0000
+
+    Fix data path for PyInstaller exe + add build README
+    
+    - Use sys.executable parent as base dir when frozen so tasks.json
+      saves next to the exe instead of the temp extraction folder
+    - Bat file generation branches: frozen → launch exe directly,
+      script → use pythonw.exe (both suppress console window)
+    - Add README with PyInstaller build instructions and UPX tip
+    
+    https://claude.ai/code/session_017qG27pN5byHWesGgGpdQM1
+
+[33mcommit ababaf5a90f2f6832ae1b810329d76db2c916611[m
+Author: Claude <noreply@anthropic.com>
+Date:   Thu Apr 2 03:02:04 2026 +0000
+
+    Use pythonw.exe in bat file to suppress console window
+    
+    https://claude.ai/code/session_017qG27pN5byHWesGgGpdQM1
+
+[33mcommit ad59098f13fee13f26ef7d1aa99d62007ae5ddf9[m
+Merge: 6240aa1 1ea1a0d
+Author: Nakata Rikkarudo <149764397+Rikiza89@users.noreply.github.com>
+Date:   Thu Apr 2 11:52:46 2026 +0900
+
+    Merge pull request #2 from Rikiza89/claude/todo-list-tkinter-app-7iurc
+    
+    Fix column resize and simplify auto-start to bat file
+
+[33mcommit 1ea1a0d2f8c69380a18f472239bf7d6034f29d99[m
+Author: Claude <noreply@anthropic.com>
+Date:   Thu Apr 2 02:50:48 2026 +0000
+
+    Fix column resize and simplify auto-start to bat file
+    
+    - All Treeview columns now resizable by dragging the header divider (stretch=True)
+    - Replace registry auto-start with bat file generation: creates
+      '起動_タスク管理.bat' next to the script, opens its folder, and
+      shows the user the exact Startup folder path to place it manually
+    
+    https://claude.ai/code/session_017qG27pN5byHWesGgGpdQM1
+
+[33mcommit 6240aa1ce138f8c328f5d95dda0b65c50961115d[m
+Merge: a7dc2bc da48082
+Author: Nakata Rikkarudo <149764397+Rikiza89@users.noreply.github.com>
+Date:   Thu Apr 2 04:01:53 2026 +0900
+
+    Merge pull request #1 from Rikiza89/claude/todo-list-tkinter-app-7iurc
+    
+    Add Japanese daily task manager tkinter app
+
+[33mcommit da480824c0db2566c047f928ec0ca932e9174f64[m
+Author: Claude <noreply@anthropic.com>
+Date:   Wed Apr 1 18:28:53 2026 +0000
+
+    Add Japanese daily task manager tkinter app
+    
+    - Morning dialog asks finish time; auto-resets task checkboxes each new day
+    - Blinking end-of-day reminder popup at specified finish time
+    - 優先順位 / task name / link columns + unlimited custom columns
+    - Check/uncheck via double-click, spacebar, or clicking ✓ column
+    - Clickable links open in browser; column sort toggle
+    - Windows registry auto-start registration
+    - Japanese UI throughout; minimal memory footprint (no threads, after() polling)
+    
+    https://claude.ai/code/session_017qG27pN5byHWesGgGpdQM1
+
+[33mcommit a7dc2bcb6f9127f9c16333c3387e374023a27a0e[m
+Author: Nakata Rikkarudo <149764397+Rikiza89@users.noreply.github.com>
+Date:   Thu Apr 2 03:10:14 2026 +0900
+
+    Initial commit
